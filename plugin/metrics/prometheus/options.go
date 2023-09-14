@@ -29,6 +29,8 @@ import (
 
 const (
 	suffixServerURL           = ".server-url"
+	suffixAuthenticator       = ".authenticator"
+	suffixRegion              = ".region"
 	suffixConnectTimeout      = ".connect-timeout"
 	suffixTokenFilePath       = ".token-file"
 	suffixOverrideFromContext = ".token-override-from-context"
@@ -65,6 +67,7 @@ type Options struct {
 // NewOptions creates a new Options struct.
 func NewOptions(primaryNamespace string) *Options {
 	defaultConfig := config.Configuration{
+		Authenticator:  "",
 		ServerURL:      defaultServerURL,
 		ConnectTimeout: defaultConnectTimeout,
 
@@ -88,6 +91,8 @@ func (opt *Options) AddFlags(flagSet *flag.FlagSet) {
 	nsConfig := &opt.Primary
 	flagSet.String(nsConfig.namespace+suffixServerURL, defaultServerURL,
 		"The Prometheus server's URL, must include the protocol scheme e.g. http://localhost:9090")
+	flagSet.String(nsConfig.namespace+suffixAuthenticator, "", "")
+	flagSet.String(nsConfig.namespace+suffixRegion, "", "")
 	flagSet.Duration(nsConfig.namespace+suffixConnectTimeout, defaultConnectTimeout,
 		"The period to wait for a connection to Prometheus when executing queries.")
 	flagSet.String(nsConfig.namespace+suffixTokenFilePath, defaultTokenFilePath,
@@ -123,6 +128,8 @@ func (opt *Options) AddFlags(flagSet *flag.FlagSet) {
 // InitFromViper initializes the options struct with values from Viper.
 func (opt *Options) InitFromViper(v *viper.Viper) error {
 	cfg := &opt.Primary
+	cfg.Authenticator = stripWhiteSpace(v.GetString(cfg.namespace + suffixAuthenticator))
+	cfg.Region = stripWhiteSpace(v.GetString(cfg.namespace + suffixRegion))
 	cfg.ServerURL = stripWhiteSpace(v.GetString(cfg.namespace + suffixServerURL))
 	cfg.ConnectTimeout = v.GetDuration(cfg.namespace + suffixConnectTimeout)
 	cfg.TokenFilePath = v.GetString(cfg.namespace + suffixTokenFilePath)
