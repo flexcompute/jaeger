@@ -22,6 +22,9 @@ import (
 
 // Configuration describes the options to customize the storage behavior.
 type Configuration struct {
+	Authenticator string
+	Region        string
+
 	ServerURL                string
 	ConnectTimeout           time.Duration
 	TLS                      tlscfg.Options
