@@ -12,6 +12,9 @@ import (
 
 // Configuration describes the options to customize the storage behavior.
 type Configuration struct {
+	Authenticator string
+	Region        string
+
 	ServerURL      string        `valid:"required" mapstructure:"endpoint"`
 	ConnectTimeout time.Duration `mapstructure:"connect_timeout"`
 	TLS            configtls.ClientConfig

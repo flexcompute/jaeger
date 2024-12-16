@@ -6,6 +6,7 @@ package metricstore
 import (
 	"context"
 	"fmt"
+	"github.com/jaegertracing/jaeger/pkg/sigv4authextension"
 	"net"
 	"net/http"
 	"os"
@@ -314,7 +315,7 @@ func logErrorToSpan(span trace.Span, err error) {
 	span.SetStatus(codes.Error, err.Error())
 }
 
-func getHTTPRoundTripper(c *config.Configuration, _ *zap.Logger) (rt http.RoundTripper, err error) {
+func getHTTPRoundTripper(c *config.Configuration, logger *zap.Logger) (rt http.RoundTripper, err error) {
 	ctlsConfig, err := c.TLS.LoadTLSConfig(context.Background())
 	if err != nil {
 		return nil, err
@@ -330,7 +331,16 @@ func getHTTPRoundTripper(c *config.Configuration, _ *zap.Logger) (rt http.RoundT
 		TLSHandshakeTimeout: 10 * time.Second,
 		TLSClientConfig:     ctlsConfig,
 	}
-
+	if c.Authenticator == "sigv4auth" {
+		sigv4Config := &sigv4authextension.Config{
+			Region: c.Region,
+		}
+		if err = sigv4Config.Validate(); err != nil {
+			return nil, err
+		}
+		sigv4Auth := sigv4authextension.NewSigv4Extension(sigv4Config, logger)
+		return sigv4Auth.RoundTripper(httpTransport)
+	}
 	token := ""
 	if c.TokenFilePath != "" {
 		tokenFromFile, err := loadToken(c.TokenFilePath)

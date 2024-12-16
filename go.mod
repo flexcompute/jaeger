@@ -9,6 +9,10 @@ require (
 	github.com/Shopify/sarama v1.37.2
 	github.com/apache/thrift v0.21.0
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+	github.com/aws/aws-sdk-go-v2 v1.32.6
+	github.com/aws/aws-sdk-go-v2/config v1.28.6
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.47
+	github.com/aws/aws-sdk-go-v2/service/sts v1.33.2
 	github.com/bsm/sarama-cluster v2.1.13+incompatible
 	github.com/crossdock/crossdock-go v0.0.0-20160816171116-049aabb0122b
 	github.com/dgraph-io/badger/v4 v4.5.0
@@ -104,6 +108,15 @@ require (
 require (
 	github.com/antchfx/xmlquery v1.4.2 // indirect
 	github.com/antchfx/xpath v1.3.2 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.25 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.25 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.6 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.24.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.28.6 // indirect
+	github.com/aws/smithy-go v1.22.1 // indirect
 	github.com/dgraph-io/ristretto/v2 v2.0.0 // indirect
 	github.com/ebitengine/purego v0.8.1 // indirect
 	github.com/expr-lang/expr v1.16.9 // indirect
@@ -239,7 +252,7 @@ require (
 	go.opentelemetry.io/collector/consumer/consumerprofiles v0.115.0 // indirect
 	go.opentelemetry.io/collector/exporter/debugexporter v0.115.0
 	go.opentelemetry.io/collector/exporter/exporterprofiles v0.115.0 // indirect
-	go.opentelemetry.io/collector/extension/auth v0.115.0 // indirect
+	go.opentelemetry.io/collector/extension/auth v0.115.0
 	go.opentelemetry.io/collector/extension/experimental/storage v0.115.0 // indirect
 	go.opentelemetry.io/collector/extension/extensioncapabilities v0.115.0
 	go.opentelemetry.io/collector/featuregate v1.21.0 // indirect

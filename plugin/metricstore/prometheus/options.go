@@ -18,6 +18,9 @@ import (
 const (
 	prefix = "prometheus"
 
+	suffixAuthenticator = ".authenticator"
+	suffixRegion        = ".region"
+
 	suffixServerURL           = ".server-url"
 	suffixConnectTimeout      = ".connect-timeout"
 	suffixTokenFilePath       = ".token-file"
@@ -48,6 +51,7 @@ var tlsFlagsCfg = tlscfg.ClientFlagsConfig{Prefix: prefix}
 
 func DefaultConfig() config.Configuration {
 	return config.Configuration{
+		Authenticator:  "",
 		ServerURL:      defaultServerURL,
 		ConnectTimeout: defaultConnectTimeout,
 
@@ -99,6 +103,8 @@ func (*Options) AddFlags(flagSet *flag.FlagSet) {
 
 // InitFromViper initializes the options struct with values from Viper.
 func (opt *Options) InitFromViper(v *viper.Viper) error {
+	opt.Authenticator = stripWhiteSpace(v.GetString(prefix + suffixAuthenticator))
+	opt.Region = stripWhiteSpace(v.GetString(prefix + suffixRegion))
 	opt.ServerURL = stripWhiteSpace(v.GetString(prefix + suffixServerURL))
 	opt.ConnectTimeout = v.GetDuration(prefix + suffixConnectTimeout)
 	opt.TokenFilePath = v.GetString(prefix + suffixTokenFilePath)
